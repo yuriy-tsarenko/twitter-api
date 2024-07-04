@@ -18,19 +18,19 @@ class PostController {
 
     @PostMapping
     @Secured("USER")
-    PostDto createPost(@RequestBody PostDto postDto, @AuthenticationPrincipal String username) {
+    PostDto create(@RequestBody PostDto postDto, @AuthenticationPrincipal String username) {
         return postService.create(postDto, username)
     }
 
     @PutMapping
     @Secured("USER")
-    PostDto updatePost(@RequestBody PostDto postDto, @AuthenticationPrincipal String username) {
+    PostDto update(@RequestBody PostDto postDto, @AuthenticationPrincipal String username) {
         return postService.update(postDto, username)
     }
 
     @DeleteMapping("/{id}")
     @Secured("USER")
-    void deletePost(@PathVariable String id, @AuthenticationPrincipal String username) {
+    void delete(@PathVariable String id, @AuthenticationPrincipal String username) {
         postService.delete(id, username)
     }
 }
