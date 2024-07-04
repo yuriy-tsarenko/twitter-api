@@ -26,7 +26,7 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer
 @Configuration
 @EnableWebSecurity
 @EnableMethodSecurity(securedEnabled = true)
-class WebSecurityConfig {
+class TwitterWebSecurityConfig {
 
     @Value('${security.encoding-strength-level:10}')
     private Integer encodingStrengthLevel
@@ -35,7 +35,7 @@ class WebSecurityConfig {
     private final JwtConfig jwtConfig;
     private final JwtService jwtService;
 
-    WebSecurityConfig(UserDetailsServiceImpl userService, JwtConfig jwtConfig, JwtService jwtService) {
+    TwitterWebSecurityConfig(UserDetailsServiceImpl userService, JwtConfig jwtConfig, JwtService jwtService) {
         this.userService = userService
         this.jwtConfig = jwtConfig
         this.jwtService = jwtService
@@ -58,7 +58,6 @@ class WebSecurityConfig {
                             .requestMatchers(HttpMethod.POST, "/v1/auth/login").permitAll()
                             .requestMatchers(HttpMethod.POST, "/v1/users/register").permitAll()
                             .requestMatchers(HttpMethod.GET, "/actuator/**").permitAll()
-                            .requestMatchers(HttpMethod.GET, "/v1/users/her/vam").permitAll()
                             .anyRequest().authenticated()
                 }
                 .authenticationProvider(userAuthProvider())
