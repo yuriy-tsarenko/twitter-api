@@ -3,6 +3,8 @@ package com.twitter.twitterapi.service
 import com.twitter.twitterapi.config.Roles
 import com.twitter.twitterapi.dto.UserDto
 import com.twitter.twitterapi.dto.UserRegisterDto
+import com.twitter.twitterapi.exception.ActionForbiddenException
+import com.twitter.twitterapi.exception.UserNotFoundException
 import com.twitter.twitterapi.mapper.UserMapper
 import com.twitter.twitterapi.repository.UserRepository
 import org.slf4j.Logger
@@ -26,6 +28,7 @@ class UserMaintenanceServiceImpl implements UserMaintenanceService {
         this.passwordEncoder = passwordEncoder
     }
 
+    @Override
     UserDto register(UserRegisterDto userRegisterDto) {
         log.info("Registering user: {}", userRegisterDto)
         def entity = userMapper.toUserEntity(userRegisterDto)
@@ -34,4 +37,25 @@ class UserMaintenanceServiceImpl implements UserMaintenanceService {
         def saved = userRepository.save(entity)
         userMapper.toUserDto(saved)
     }
+
+    @Override
+    UserDto update(UserDto userDto) {
+        log.info("Updating user: {}", userDto)
+        def entity = userMapper.toUserEntity(userDto)
+        def saved = userRepository.save(entity)
+        userMapper.toUserDto(saved)
+    }
+
+    @Override
+    void delete(String userIdToDelete, String actorName) {
+        log.info("Deleting user with userIdToDelete: {}", userIdToDelete)
+        def actorId = userRepository.findByUsername(actorName)
+                .map { user -> user.getId() }
+                .orElseThrow(UserNotFoundException::new)
+        if (!actorId.equals(userIdToDelete)) {
+            throw new ActionForbiddenException("You can only delete your own account")
+        }
+        userRepository.deleteById(userIdToDelete)
+    }
+
 }

@@ -5,4 +5,8 @@ import com.twitter.twitterapi.dto.UserRegisterDto
 
 interface UserMaintenanceService {
     UserDto register(UserRegisterDto userRegisterDto)
+
+    UserDto update(UserDto userDto)
+
+    void delete(String id, String actorName)
 }
