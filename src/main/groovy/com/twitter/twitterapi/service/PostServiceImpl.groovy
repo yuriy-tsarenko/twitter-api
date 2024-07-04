@@ -96,8 +96,13 @@ class PostServiceImpl implements PostService {
     }
 
     @Override
-    List<PostDto> loadAll() {
-        List<PostEntity> posts = postRepository.findAll();
+    List<PostDto> loadAllByUsername(String username) {
+        Set<PostEntity> posts = userRepository.findByUsername(username)
+                .orElseThrow({
+                    log.error("UserEntity with username {} not found", username)
+                    new UserNotFoundException("UserEntity with username " + username + " not found")
+                })
+                .getPosts()
         return posts.stream()
                 .map(postMapper::toDto)
                 .collect(Collectors.toList());
