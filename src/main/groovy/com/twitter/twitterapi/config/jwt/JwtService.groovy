@@ -1,7 +1,7 @@
 package com.twitter.twitterapi.config.jwt
 
 import com.fasterxml.jackson.databind.ObjectMapper
-import com.twitter.twitterapi.config.UserAuthentication
+import com.twitter.twitterapi.config.common.UserAuthentication
 import com.twitter.twitterapi.dto.UserDto
 import io.jsonwebtoken.Jwts
 import org.springframework.beans.factory.annotation.Value

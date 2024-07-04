@@ -1,5 +1,7 @@
-package com.twitter.twitterapi.config
+package com.twitter.twitterapi.config.common
 
+
+import com.twitter.twitterapi.config.cors.OriginHeaderCheckInterceptor
 import com.twitter.twitterapi.config.jwt.JwtConfig
 import com.twitter.twitterapi.config.jwt.JwtService
 import com.twitter.twitterapi.config.jwt.UserJwtAuthenticationFilter
@@ -26,7 +28,7 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer
 @Configuration
 @EnableWebSecurity
 @EnableMethodSecurity(securedEnabled = true)
-class TwitterWebSecurityConfig {
+class WebSecurityConfig {
 
     @Value('${security.encoding-strength-level:10}')
     private Integer encodingStrengthLevel
@@ -35,7 +37,7 @@ class TwitterWebSecurityConfig {
     private final JwtConfig jwtConfig;
     private final JwtService jwtService;
 
-    TwitterWebSecurityConfig(UserDetailsServiceImpl userService, JwtConfig jwtConfig, JwtService jwtService) {
+    WebSecurityConfig(UserDetailsServiceImpl userService, JwtConfig jwtConfig, JwtService jwtService) {
         this.userService = userService
         this.jwtConfig = jwtConfig
         this.jwtService = jwtService

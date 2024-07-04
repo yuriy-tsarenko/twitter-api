@@ -1,6 +1,6 @@
 package com.twitter.twitterapi.controller
 
-import com.twitter.twitterapi.config.UserAuthentication
+import com.twitter.twitterapi.config.common.UserAuthentication
 import com.twitter.twitterapi.config.jwt.JwtConfig
 import com.twitter.twitterapi.config.jwt.JwtService
 import com.twitter.twitterapi.dto.UserDto

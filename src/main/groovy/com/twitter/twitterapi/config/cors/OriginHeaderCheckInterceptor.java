@@ -1,4 +1,4 @@
-package com.twitter.twitterapi.config;
+package com.twitter.twitterapi.config.cors;
 
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
