@@ -24,9 +24,7 @@ class UserAuthentication extends UsernamePasswordAuthenticationToken {
     }
 
     @Override
-    Collection<String> getAuthorities() {
-        return super.getAuthorities().stream()
-                .map { auth.authority }
-                .collect(Collectors.toList()) as Collection<String>
+    Collection<? extends GrantedAuthority> getAuthorities() {
+        super.getAuthorities()
     }
 }
