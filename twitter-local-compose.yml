@@ -1,0 +1,44 @@
+version: '3.8'
+
+services:
+  mongo:
+    image: mongo:latest
+    container_name: twitter_mongo
+    environment:
+      - MONGO_INITDB_DATABASE=twitterdb
+      - MONGO_INITDB_ROOT_USERNAME=admin
+      - MONGO_INITDB_ROOT_PASSWORD=admin123
+    ports:
+      - "27017:27017"
+    volumes:
+      - mongo-data:/data/db
+    networks:
+      - twitter-infra
+
+  twitterapi:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: twitter_api
+    environment:
+      - MONGODB_DATABASE=twitterdb
+      - MONGODB_USERNAME=admin
+      - MONGODB_PASSWORD=admin123
+      - MONGODB_PORT=27017
+      - MONGODB_HOST=mongo
+      - MONGODB_AUTHENTICATION_DATABASE=admin
+      - SERVER_PORT=8080
+      - SPRING_PROFILES_ACTIVE=local
+    ports:
+      - "8080:8080"
+    depends_on:
+      - mongo
+    networks:
+      - twitter-infra
+
+volumes:
+  mongo-data:
+
+networks:
+  twitter-infra:
+    driver: bridge
