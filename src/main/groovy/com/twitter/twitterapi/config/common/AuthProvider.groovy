@@ -1,4 +1,4 @@
-package com.twitter.twitterapi.config
+package com.twitter.twitterapi.config.common
 
 import com.twitter.twitterapi.dto.UserDto
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider
