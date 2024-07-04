@@ -23,7 +23,8 @@ class UserMapper {
                             dateOfBirth: request.dateOfBirth(),
                             authorities: []
                     )
-                }.orElseThrow(IllegalArgumentException::new)
+                }
+                .orElse(null)
 
     }
 
@@ -42,7 +43,8 @@ class UserMapper {
                             dateOfBirth: request.dateOfBirth,
                             authorities: request.authorities
                     )
-                }.orElseThrow(IllegalArgumentException::new)
+                }
+                .orElse(null)
     }
 
     UserDto toUserDto(UserEntity entity) {
@@ -60,7 +62,7 @@ class UserMapper {
                             dateOfBirth: entity.dateOfBirth,
                             authorities: entity.authorities)
                 }
-                .orElseThrow(IllegalArgumentException::new)
+                .orElse(null)
     }
 
 }

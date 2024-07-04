@@ -39,6 +39,8 @@ class UserDto implements UserDetails {
         username
     }
 
+    List<PostDto> posts = []
+
     @Override
     String toString() {
         """
