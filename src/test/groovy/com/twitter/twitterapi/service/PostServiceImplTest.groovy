@@ -92,25 +92,27 @@ class PostServiceImplTest extends MockitoBased {
         then: "The post should be deleted"
     }
 
-    def "LoadAll"() {
-        given: "A list of posts"
-        def postEntity1 = new PostEntity(id: "1", content: "Post 1")
-        def postEntity2 = new PostEntity(id: "2", content: "Post 2")
-        def postEntities = [postEntity1, postEntity2]
-        def postDto1 = new PostDto(id: "1", content: "Post 1", username: "1")
-        def postDto2 = new PostDto(id: "2", content: "Post 2", username: "2")
-        def postDtos = [postDto1, postDto2]
+    def "LoadAllByUsername"() {
+        given: "A username and a list of PostEntities"
+        def username = "testUser"
+        def userEntity = new UserEntity(id: "1", username: username, posts: new ArrayList<>())
+        def postEntity1 = new PostEntity(id: "1", content: "Post 1", user: userEntity)
+        def postEntity2 = new PostEntity(id: "2", content: "Post 2", user: userEntity)
+        userEntity.posts.addAll([postEntity1, postEntity2])
+        def postDto1 = new PostDto(id: "1", content: "Post 1", username: username)
+        def postDto2 = new PostDto(id: "2", content: "Post 2", username: username)
+        def expectedPostDtos = [postDto1, postDto2]
 
-        when(postRepository.findAll()).thenReturn(postEntities)
+        when(userRepository.findByUsername(username)).thenReturn(Optional.of(userEntity))
         when(postMapper.toDto(postEntity1)).thenReturn(postDto1)
         when(postMapper.toDto(postEntity2)).thenReturn(postDto2)
 
-        when: "LoadAll method is called"
-        def result = postService.loadAll()
+        when: "loadAllByUsername method is called"
+        def result = postService.loadAllByUsername(username)
 
-        then: "The result should be a list of PostDto"
+        then: "The result should be a list of PostDto matching the expected list"
         assertNotNull(result)
-        assertEquals(postDtos.size(), result.size())
-        assertEquals(postDtos, result)
+        assertEquals(expectedPostDtos.size(), result.size())
+        assertEquals(expectedPostDtos, result)
     }
 }
