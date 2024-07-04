@@ -27,6 +27,24 @@ class UserMapper {
 
     }
 
+    UserEntity toUserEntity(UserDto request) {
+        Optional.ofNullable(request)
+                .map {
+                    new UserEntity(
+                            id: request.id,
+                            username: request.username,
+                            password: request.password,
+                            email: request.email,
+                            phone: request.phone,
+                            address: request.address,
+                            fullName: request.fullName,
+                            gender: request.gender,
+                            dateOfBirth: request.dateOfBirth,
+                            authorities: request.authorities
+                    )
+                }.orElseThrow(IllegalArgumentException::new)
+    }
+
     UserDto toUserDto(UserEntity entity) {
         Optional.ofNullable(entity)
                 .map {

@@ -20,6 +20,7 @@ class UserDto implements UserDetails {
     String fullName
     String gender
     LocalDate dateOfBirth
+
     @JsonDeserialize(using = GrantedAuthorityListDeserializer)
     List<GrantedAuthority> authorities = []
 
