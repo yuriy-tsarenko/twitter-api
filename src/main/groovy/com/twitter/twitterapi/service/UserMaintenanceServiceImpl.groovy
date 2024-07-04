@@ -1,6 +1,6 @@
 package com.twitter.twitterapi.service
 
-import com.twitter.twitterapi.config.Roles
+import com.twitter.twitterapi.config.common.Roles
 import com.twitter.twitterapi.dto.UserDto
 import com.twitter.twitterapi.dto.UserRegisterDto
 import com.twitter.twitterapi.exception.ActionForbiddenException

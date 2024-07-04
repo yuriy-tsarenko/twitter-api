@@ -1,5 +1,7 @@
-package com.twitter.twitterapi.config
+package com.twitter.twitterapi.config.common
 
+
+import com.twitter.twitterapi.config.cors.OriginHeaderCheckInterceptor
 import com.twitter.twitterapi.config.jwt.JwtConfig
 import com.twitter.twitterapi.config.jwt.JwtService
 import com.twitter.twitterapi.config.jwt.UserJwtAuthenticationFilter
@@ -58,7 +60,6 @@ class WebSecurityConfig {
                             .requestMatchers(HttpMethod.POST, "/v1/auth/login").permitAll()
                             .requestMatchers(HttpMethod.POST, "/v1/users/register").permitAll()
                             .requestMatchers(HttpMethod.GET, "/actuator/**").permitAll()
-                            .requestMatchers(HttpMethod.GET, "/v1/users/her/vam").permitAll()
                             .anyRequest().authenticated()
                 }
                 .authenticationProvider(userAuthProvider())
