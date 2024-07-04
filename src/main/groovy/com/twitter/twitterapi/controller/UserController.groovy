@@ -1,11 +1,10 @@
 package com.twitter.twitterapi.controller
 
-
+import com.twitter.twitterapi.dto.UserDto
 import com.twitter.twitterapi.dto.UserRegisterDto
 import com.twitter.twitterapi.service.UserMaintenanceService
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
-import org.springframework.security.core.userdetails.UserDetails
 import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.RequestBody
 import org.springframework.web.bind.annotation.RequestMapping
@@ -24,9 +23,9 @@ class UserController {
     }
 
     @PostMapping("/register")
-    String register(@RequestBody UserRegisterDto user) {
+    UserDto register(@RequestBody UserRegisterDto user) {
         log.info("Registering user: {}", user)
         def registered = userService.register(user)
-        return "User registered successfully"
+        registered
     }
 }

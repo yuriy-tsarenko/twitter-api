@@ -1,5 +1,6 @@
 package com.twitter.twitterapi.service
 
+
 import com.twitter.twitterapi.mapper.UserMapper
 import com.twitter.twitterapi.repository.UserRepository
 import org.slf4j.Logger
@@ -25,9 +26,9 @@ class UserDetailsServiceImpl implements UserDetailsService {
     @Override
     UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         log.info("Loading user by username: {}", username)
-        userMapper.toUserDto(
-                userRepository.findByUsername(username).orElseThrow({
-                    new UsernameNotFoundException("User not found with username: " + username)
-                }))
+        def userEntity = userRepository.findByUsername(username).orElseThrow({
+            new UsernameNotFoundException("User not found with username: " + username)
+        })
+        userMapper.toUserDto(userEntity)
     }
 }
