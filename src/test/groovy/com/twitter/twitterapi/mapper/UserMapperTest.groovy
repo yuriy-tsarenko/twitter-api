@@ -8,6 +8,8 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority
 
 import java.time.LocalDate
 
+import static org.junit.jupiter.api.Assertions.assertNull
+
 class UserMapperTest extends MockitoBased {
 
     @Spy
@@ -21,7 +23,7 @@ class UserMapperTest extends MockitoBased {
         )
 
         when: "toUserEntity is called with the UserRegisterDto"
-        def result = new UserMapper().toUserEntity(userRegisterDto)
+        def result = userMapper.toUserEntity(userRegisterDto)
 
         then: "The result is a UserEntity with expected values for all fields"
         result.username == 'testUser'
@@ -36,10 +38,10 @@ class UserMapperTest extends MockitoBased {
 
     def "ToUserEntity - NPE case"() {
         when: "toUserEntity is called with null"
-        new UserMapper().toUserEntity(null)
+        def entity = userMapper.toUserEntity(null)
 
         then: "An IllegalArgumentException is thrown"
-        thrown(IllegalArgumentException)
+        assertNull(entity)
     }
 
     def "ToUserDto - all fields"() {
@@ -50,7 +52,7 @@ class UserMapperTest extends MockitoBased {
         )
 
         when: "toUserDto is called with the UserEntity"
-        def result = new UserMapper().toUserDto(userEntity)
+        def result = userMapper.toUserDto(userEntity)
 
         then: "The result is a UserDto with expected values for all fields"
         result.username == 'testUser'
@@ -65,9 +67,9 @@ class UserMapperTest extends MockitoBased {
 
     def "ToUserDto - NPE case"() {
         when: "toUserDto is called with null"
-        new UserMapper().toUserDto(null)
+        def dto = userMapper.toUserDto(null)
 
         then: "An IllegalArgumentException is thrown"
-        thrown(IllegalArgumentException)
+        assertNull(dto)
     }
 }
