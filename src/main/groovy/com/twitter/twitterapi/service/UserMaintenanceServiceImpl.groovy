@@ -1,5 +1,6 @@
 package com.twitter.twitterapi.service
 
+import com.twitter.twitterapi.config.Roles
 import com.twitter.twitterapi.dto.UserDto
 import com.twitter.twitterapi.dto.UserRegisterDto
 import com.twitter.twitterapi.mapper.UserMapper
@@ -11,7 +12,7 @@ import org.springframework.security.crypto.password.PasswordEncoder
 import org.springframework.stereotype.Service
 
 @Service
-class UserMaintenanceServiceImpl implements UserMaintenanceService{
+class UserMaintenanceServiceImpl implements UserMaintenanceService {
 
     private static final Logger log = LoggerFactory.getLogger(UserMaintenanceServiceImpl.class)
 
@@ -29,7 +30,7 @@ class UserMaintenanceServiceImpl implements UserMaintenanceService{
         log.info("Registering user: {}", userRegisterDto)
         def entity = userMapper.toUserEntity(userRegisterDto)
         entity.password = passwordEncoder.encode(entity.password)
-        entity.authorities = List.of(new SimpleGrantedAuthority("ROLE_USER"))
+        entity.authorities = List.of(new SimpleGrantedAuthority(Roles.USER.name()))
         def saved = userRepository.save(entity)
         userMapper.toUserDto(saved)
     }

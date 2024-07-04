@@ -1,6 +1,8 @@
 package com.twitter.twitterapi.dto
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize
+import com.twitter.twitterapi.util.GrantedAuthorityListDeserializer
 import org.springframework.security.core.GrantedAuthority
 import org.springframework.security.core.userdetails.UserDetails
 
@@ -18,6 +20,7 @@ class UserDto implements UserDetails {
     String fullName
     String gender
     LocalDate dateOfBirth
+    @JsonDeserialize(using = GrantedAuthorityListDeserializer)
     List<GrantedAuthority> authorities = []
 
     @Override
@@ -34,7 +37,6 @@ class UserDto implements UserDetails {
     String getUsername() {
         username
     }
-
 
     @Override
     String toString() {

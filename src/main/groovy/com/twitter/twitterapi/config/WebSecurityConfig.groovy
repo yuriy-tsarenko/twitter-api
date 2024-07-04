@@ -1,5 +1,8 @@
 package com.twitter.twitterapi.config
 
+import com.twitter.twitterapi.config.jwt.JwtConfig
+import com.twitter.twitterapi.config.jwt.JwtService
+import com.twitter.twitterapi.config.jwt.UserJwtAuthenticationFilter
 import com.twitter.twitterapi.service.UserDetailsServiceImpl
 import org.springframework.beans.factory.annotation.Value
 import org.springframework.context.annotation.Bean
@@ -29,9 +32,13 @@ class WebSecurityConfig {
     private Integer encodingStrengthLevel
 
     private final UserDetailsServiceImpl userService
+    private final JwtConfig jwtConfig;
+    private final JwtService jwtService;
 
-    WebSecurityConfig(UserDetailsServiceImpl userService) {
+    WebSecurityConfig(UserDetailsServiceImpl userService, JwtConfig jwtConfig, JwtService jwtService) {
         this.userService = userService
+        this.jwtConfig = jwtConfig
+        this.jwtService = jwtService
     }
 
     @Bean
@@ -55,7 +62,10 @@ class WebSecurityConfig {
                             .anyRequest().authenticated()
                 }
                 .authenticationProvider(userAuthProvider())
-                .addFilterBefore(userJwtAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class)
+                .addFilterBefore(
+                        new UserJwtAuthenticationFilter(jwtConfig, jwtService),
+                        UsernamePasswordAuthenticationFilter.class
+                )
 
         return http.build()
     }
@@ -76,10 +86,6 @@ class WebSecurityConfig {
     @Bean
     AuthenticationManager authenticationManager(AuthenticationConfiguration authenticationConfiguration) throws Exception {
         return authenticationConfiguration.getAuthenticationManager()
-    }
-
-    static UserJwtAuthenticationFilter userJwtAuthenticationFilter() {
-        new UserJwtAuthenticationFilter()
     }
 
     @Bean
