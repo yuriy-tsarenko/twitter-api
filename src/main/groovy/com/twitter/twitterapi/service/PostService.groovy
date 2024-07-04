@@ -9,6 +9,6 @@ interface PostService {
 
     void delete(String postId, String username)
 
-    List<PostDto> loadAll();
+    List<PostDto> loadAllByUsername(String username);
 
 }

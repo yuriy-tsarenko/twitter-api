@@ -16,6 +16,12 @@ class PostController {
         this.postService = postService
     }
 
+    @GetMapping
+    @Secured("USER")
+    List<PostDto> allUsersPosts(@RequestParam("username") String username) {
+        return postService.loadAllByUsername(username)
+    }
+
     @PostMapping
     @Secured("USER")
     PostDto create(@RequestBody PostDto postDto, @AuthenticationPrincipal String username) {
